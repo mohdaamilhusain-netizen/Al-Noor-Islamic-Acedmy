@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Al Noor Islamic Academy — Admin</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{--g:#0d4b3a;--s:#17624d;--a:#c99a3b}
+*{box-sizing:border-box}body{margin:0;background:#08111d;color:#eef4ff;font-family:system-ui,Arial,sans-serif}
+.wrap{max-width:1100px;margin:auto;padding:14px}.card{background:#111b2b;border:1px solid #2a3851;border-radius:18px;padding:18px;margin:12px 0;box-shadow:0 10px 28px #0003}
+h1{font-size:28px;margin:10px 0}h2{margin:0 0 8px}.muted{color:#9eacc4}.err{color:#ff9ca4}.ok{color:#69e3ad}
+.login{max-width:430px;margin:11vh auto}.hidden{display:none!important}
+label{display:block;margin:12px 0 6px;color:#aebbd0}input,select,textarea,button{width:100%;font:inherit;padding:12px;border-radius:10px;border:1px solid #34435e}
+input,select,textarea{background:#091322;color:#fff}textarea{min-height:95px;resize:vertical}
+button{background:#18bd7b;color:#04150d;font-weight:800;cursor:pointer}button.secondary{background:#1b2940;color:#fff}
+button.danger{background:#8b3542;color:#fff}.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat b{display:block;font-size:30px;margin-top:4px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.triple{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.toolbar{display:grid;grid-template-columns:1fr 180px;gap:10px}table{width:100%;border-collapse:collapse;min-width:800px}
+th,td{padding:10px 7px;border-bottom:1px solid #2a3851;text-align:left}th{font-size:12px;color:#9eacc4}.scroll{overflow:auto}
+.preview{padding:22px;border-radius:16px;color:#fff;text-align:center;background:linear-gradient(135deg,var(--g),var(--s));margin-top:12px}
+.noticebox{border:1px dashed #51617d;border-radius:12px;padding:12px;margin-top:10px}
+.color{height:48px;padding:4px}.pin{text-align:center;font-size:24px;letter-spacing:8px}
+video{width:100%;max-width:500px;border-radius:14px;margin-top:10px}
+@media(max-width:700px){.stats,.grid,.triple{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="login" class="wrap"><div class="card login">
+<div class="muted">Al Noor Islamic Academy</div><h1>Admin Login</h1>
+<label>Email</label><input id="email" type="email" autocomplete="username">
+<label>Password</label><input id="pass" type="password" autocomplete="current-password">
+<br><br><button id="loginBtn" type="button">Login</button><p id="loginMsg" class="muted"></p>
+</div></div>
+
+<div id="pinbox" class="wrap hidden"><div class="card login">
+<div class="muted">Al Noor Islamic Academy</div><h1>🔐 Security PIN</h1>
+<p class="muted">Enter your 4-digit admin PIN.</p>
+<input id="pin" class="pin" inputmode="numeric" maxlength="4" type="password" placeholder="••••">
+<br><br><button id="pinBtn" type="button">Unlock Dashboard</button><p id="pinMsg" class="muted"></p>
+</div></div>
+
+<div id="app" class="wrap hidden">
+<div class="top"><div><b>Al Noor Islamic Academy</b><div class="muted">Admin Dashboard</div></div><button id="logout" class="secondary" style="width:auto">Logout</button></div>
+
+<div class="stats">
+<div class="card stat"><span class="muted">Total Admissions</span><b id="total">0</b></div>
+<div class="card stat"><span class="muted">Pending</span><b id="pending">0</b></div>
+<div class="card stat"><span class="muted">Approved</span><b id="approved">0</b></div>
+</div>
+
+<div class="card">
+<h2>🎨 Website Customize</h2><p class="muted">Yahin se homepage ka text, colours, notice, courses aur QR manage karein.</p>
+<div class="grid">
+<div>
+<label>Academy Name</label><input id="academy_name">
+<label>Email</label><input id="email2" type="email">
+<label>WhatsApp Number</label><input id="whatsapp">
+<label>About Academy</label><textarea id="about"></textarea>
+<label>Hero Heading</label><input id="hero_title">
+<label>Hero Description</label><textarea id="hero_text"></textarea>
+<label>Hero Button Text</label><input id="hero_button_text">
+</div>
+<div>
+<label>Logo Image URL (optional)</label><input id="logo_url" placeholder="https://...">
+<label>Hero/Banner Image URL (optional)</label><input id="hero_image_url" placeholder="https://...">
+<label>Payment QR Image URL (optional)</label><input id="payment_qr_url" placeholder="https://...">
+<label>Notice Title</label><input id="notice_title">
+<label>Notice Text</label><textarea id="notice_text"></textarea>
+<label>Notice Link (optional)</label><input id="notice_link" placeholder="https://...">
+<label>Show Notice</label><select id="show_notice"><option value="true">Yes</option><option value="false">No</option></select>
+</div>
+</div>
+<label>Website Colours</label>
+<div class="triple">
+<div><span class="muted">Primary</span><input id="primary_color" class="color" type="color"></div>
+<div><span class="muted">Secondary</span><input id="secondary_color" class="color" type="color"></div>
+<div><span class="muted">Accent</span><input id="accent_color" class="color" type="color"></div>
+</div>
+<div id="preview" class="preview">Al Noor Islamic Academy — Live Preview</div>
+<br><button id="saveSettings" type="button">💾 Save Website Changes</button>
+<p id="settingsMsg" class="muted"></p>
+</div>
+
+<div class="card">
+<h2>📚 Courses</h2>
+<p class="muted">Five course structure. Detailed syllabus is intentionally not shown on the public homepage.</p>
+<div class="grid">
+<div><label>Course 1 Title</label><input id="c1title"><label>Course 1 Description</label><textarea id="c1desc"></textarea></div>
+<div><label>Course 2 Title</label><input id="c2title"><label>Course 2 Description</label><textarea id="c2desc"></textarea></div>
+<div><label>Course 3 Title</label><input id="c3title"><label>Course 3 Description</label><textarea id="c3desc"></textarea></div>
+<div><label>Course 4 Title</label><input id="c4title"><label>Course 4 Description</label><textarea id="c4desc"></textarea></div>
+<div><label>Course 5 Title</label><input id="c5title"><label>Course 5 Description</label><textarea id="c5desc"></textarea><p class="muted">Aalimah: Year 1 • Year 2 • Year 3</p></div>
+</div><br><button id="saveCourses" type="button">💾 Save Courses</button><p id="courseMsg" class="muted"></p>
+</div>
+
+<div class="card">
+<h2>📢 Notice Quick Editor</h2>
+<p class="muted">Notice ko turant on/off karke save kar sakte hain.</p>
+<button id="noticeOn" type="button">Show Notice</button><br><br><button id="noticeOff" class="secondary" type="button">Hide Notice</button>
+</div>
+
+<div class="card">
+<h2>💳 Payment QR</h2><p class="muted">QR image URL upar save karne ke baad homepage par payment QR section mein dikhega.</p>
+</div>
+
+<div class="card">
+<h2>📷 QR Scanner</h2><p class="muted">Phone camera se QR scan. Camera permission allow karein.</p>
+<button id="scanBtn" type="button">Start QR Scanner</button>
+<video id="video" class="hidden" playsinline></video><p id="scanMsg" class="muted"></p>
+</div>
+
+<div class="card">
+<div class="top"><div><h2>📝 Admissions</h2><div class="muted">Website applications</div></div><button id="refresh" class="secondary" style="width:auto">Refresh</button></div>
+<div class="toolbar"><input id="search" placeholder="Search student, father, phone, course..."><select id="filter"><option value="">All statuses</option><option>pending</option><option>approved</option><option>rejected</option></select></div>
+<p id="tableMsg"></p><div class="scroll"><table><thead><tr><th>Student</th><th>Father</th><th>Phone</th><th>Gender</th><th>Course</th><th>Status</th><th>Date</th></tr></thead><tbody id="rows"></tbody></table></div>
+</div>
+</div>
+
+<script>
+const URL="https://qyvijduftsbtmgscpmsi.supabase.co";
+const KEY="sb_publishable_Q2aRtrVnUQe28sCgngkixQ_t_TMYCyS";
+const PIN="8766";
+let token=localStorage.getItem("alnoor_admin_token"), data=[], settings={};
+const $=id=>document.getElementById(id);
+const esc=x=>String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+async function api(path,opts={}){
+ const h={"apikey":KEY,"Content-Type":"application/json",...(opts.headers||{})};
+ if(token)h.Authorization="Bearer "+token;
+ const r=await fetch(URL+path,{...opts,headers:h});const t=await r.text();let b={};try{b=t?JSON.parse(t):{}}catch{}
+ if(!r.ok)throw Error(b.msg||b.message||b.error_description||t||("HTTP "+r.status));return b;
+}
+function setMsg(id,text,good=false){$(id).className=good?"ok":"muted";$(id).textContent=text}
+async function login(){
+ setMsg("loginMsg","Logging in...");
+ try{let b=await api("/auth/v1/token?grant_type=password",{method:"POST",body:JSON.stringify({email:$("email").value.trim(),password:$("pass").value})});
+ if(!b.access_token)throw Error("Login failed");token=b.access_token;localStorage.setItem("alnoor_admin_token",token);
+ $("login").classList.add("hidden");$("pinbox").classList.remove("hidden");$("pin").focus();
+ }catch(e){$("loginMsg").className="err";$("loginMsg").textContent=e.message}
+}
+function unlock(){if($("pin").value===PIN){$("pinbox").classList.add("hidden");$("app").classList.remove("hidden");loadAll()}else{$("pinMsg").className="err";$("pinMsg").textContent="Wrong PIN"}}
+async function loadAll(){await Promise.all([loadSettings(),loadAdmissions()])}
+async function loadSettings(){
+ try{
+  let a=await api("/rest/v1/academy_settings?select=*&id=eq.1");settings=a[0]||{};
+  $("academy_name").value=settings.academy_name||"Al Noor Islamic Academy";$("email2").value=settings.email||"mohdaamilhusain@gmail.com";$("whatsapp").value=settings.whatsapp||"8791800634";$("about").value=settings.about||"";
+  let c=settings.customization||{};
+  ["hero_title","hero_text","hero_button_text","logo_url","hero_image_url","payment_qr_url","notice_title","notice_text","notice_link"].forEach(k=>$(k).value=c[k]||"");
+  $("show_notice").value=String(c.show_notice??true);$("primary_color").value=c.primary_color||"#0d4b3a";$("secondary_color").value=c.secondary_color||"#17624d";$("accent_color").value=c.accent_color||"#c99a3b";
+  let cs=c.courses||{};let defaults={c1:["ایک سالہ نصابِ دینیات",""] ,c2:["ایک سالہ قرآنِ کریم، تجوید و قراءت",""] ,c3:["ایک سالہ حفظِ قرآن و سورتیں",""] ,c4:["ایک سالہ عربی زبان و علومِ عربیہ",""] ,c5:["تین سالہ عالمہ کورس",""]};["c1","c2","c3","c4","c5"].forEach(k=>{let a=cs[k]||{};$(k+"title").value=a.title||defaults[k][0];$(k+"desc").value=a.desc||""});preview();
+ }catch(e){$("settingsMsg").className="err";$("settingsMsg").textContent="Settings load error: "+e.message}
+}
+function preview(){let p=$("primary_color").value,s=$("secondary_color").value,a=$("accent_color").value;document.documentElement.style.setProperty("--g",p);document.documentElement.style.setProperty("--s",s);document.documentElement.style.setProperty("--a",a);$("preview").style.background=`linear-gradient(135deg,${p},${s})`;$("preview").style.borderBottom="5px solid "+a}
+function customization(){
+ return {hero_title:$("hero_title").value,hero_text:$("hero_text").value,hero_button_text:$("hero_button_text").value,logo_url:$("logo_url").value,hero_image_url:$("hero_image_url").value,payment_qr_url:$("payment_qr_url").value,notice_title:$("notice_title").value,notice_text:$("notice_text").value,notice_link:$("notice_link").value,show_notice:$("show_notice").value==="true",primary_color:$("primary_color").value,secondary_color:$("secondary_color").value,accent_color:$("accent_color").value,courses:{c1:{title:$("c1title").value,desc:$("c1desc").value},c2:{title:$("c2title").value,desc:$("c2desc").value},c3:{title:$("c3title").value,desc:$("c3desc").value},c4:{title:$("c4title").value,desc:$("c4desc").value},c5:{title:$("c5title").value,desc:$("c5desc").value}}}
+}
+async function save(){
+ setMsg("settingsMsg","Saving...");
+ try{let c=customization();await api("/rest/v1/academy_settings?id=eq.1",{method:"PATCH",headers:{"Prefer":"return=minimal"},body:JSON.stringify({academy_name:$("academy_name").value,email:$("email2").value,whatsapp:$("whatsapp").value,about:$("about").value,customization:c,updated_at:new Date().toISOString()})});setMsg("settingsMsg","Saved successfully ✓",true)}
+ catch(e){setMsg("settingsMsg","Save error: "+e.message)}
+}
+async function saveCourses(){setMsg("courseMsg","Saving...");try{let c=customization();await api("/rest/v1/academy_settings?id=eq.1",{method:"PATCH",headers:{"Prefer":"return=minimal"},body:JSON.stringify({customization:c,updated_at:new Date().toISOString()})});setMsg("courseMsg","Courses saved ✓",true)}catch(e){setMsg("courseMsg","Save error: "+e.message)}}
+async function notice(v){$("show_notice").value=String(v);await save()}
+async function loadAdmissions(){try{data=await api("/rest/v1/admissions?select=*&order=created_at.desc");render()}catch(e){$("tableMsg").className="err";$("tableMsg").textContent=e.message}}
+function render(){let q=$("search").value.toLowerCase(),f=$("filter").value,a=data.filter(x=>(!q||[x.student_name,x.father_name,x.phone,x.course,x.gender].join(" ").toLowerCase().includes(q))&&(!f||String(x.status||"pending").toLowerCase()===f));$("total").textContent=data.length;$("pending").textContent=data.filter(x=>String(x.status||"pending").toLowerCase()=="pending").length;$("approved").textContent=data.filter(x=>String(x.status||"pending").toLowerCase()=="approved").length;if(!a.length){$("rows").innerHTML='<tr><td colspan="7" style="text-align:center;padding:25px">No admissions found.</td></tr>';return}$("rows").innerHTML=a.map(x=>{let s=String(x.status||"pending").toLowerCase();return `<tr><td><b>${esc(x.student_name)}</b></td><td>${esc(x.father_name)}</td><td>${esc(x.phone)}</td><td>${esc(x.gender)}</td><td>${esc(x.course)}</td><td><select class="st" data-id="${esc(x.id)}"><option ${s=="pending"?"selected":""}>pending</option><option ${s=="approved"?"selected":""}>approved</option><option ${s=="rejected"?"selected":""}>rejected</option></select></td><td class="muted">${x.created_at?new Date(x.created_at).toLocaleString():"—"}</td></tr>`}).join("");document.querySelectorAll(".st").forEach(e=>e.onchange=update)}
+async function update(e){let id=e.target.dataset.id,s=e.target.value;e.target.disabled=true;try{await api("/rest/v1/admissions?id=eq."+encodeURIComponent(id),{method:"PATCH",headers:{"Prefer":"return=minimal"},body:JSON.stringify({status:s})});let x=data.find(v=>String(v.id)==String(id));if(x)x.status=s;render()}catch(err){alert(err.message)}finally{e.target.disabled=false}}
+async function scanner(){if(!("BarcodeDetector" in window)){setMsg("scanMsg","Is browser mein built-in QR scanner supported nahi hai. Chrome update karke try karein.");return}try{let stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});$("video").srcObject=stream;$("video").classList.remove("hidden");await $("video").play();let d=new BarcodeDetector({formats:["qr_code"]});setMsg("scanMsg","Camera active — QR code ke saamne rakhein.");let loop=async()=>{if($("video").classList.contains("hidden"))return;try{let r=await d.detect($("video"));if(r.length){setMsg("scanMsg","QR: "+r[0].rawValue,true);stream.getTracks().forEach(t=>t.stop());$("video").classList.add("hidden");return}}catch(e){}requestAnimationFrame(loop)};loop()}catch(e){setMsg("scanMsg","Camera permission/error: "+e.message)}}
+$("loginBtn").onclick=login;$("pass").onkeydown=e=>{if(e.key==="Enter")login()};$("pinBtn").onclick=unlock;$("pin").onkeydown=e=>{if(e.key==="Enter")unlock()};$("logout").onclick=()=>{token=null;localStorage.removeItem("alnoor_admin_token");location.reload()};$("saveSettings").onclick=save;$("saveCourses").onclick=saveCourses;$("noticeOn").onclick=()=>notice(true);$("noticeOff").onclick=()=>notice(false);$("refresh").onclick=loadAdmissions;$("search").oninput=render;$("filter").onchange=render;["primary_color","secondary_color","accent_color"].forEach(id=>$(id).oninput=preview);$("scanBtn").onclick=scanner;
+if(token){$("login").classList.add("hidden");$("pinbox").classList.remove("hidden");}
+</script>
+</body></html>
